@@ -1,37 +1,71 @@
-console.log("poop");
-
-
-
-
-// var dogs = []
-// var breeds = []
 
 function executeThisCodeAfterFileLoads (){
-	// console.log("this", this.responseText);
-	var data = JSON.parse(this.responseText).dogs;
-	console.log("dogs", data);
+	var dogsData = JSON.parse(this.responseText).dogs;
+	// console.log("dogs", dogsData);
+	getBreedz(dogsData);
+	
 };
-
-function executeThisCodeAfterFileLoads2 () {
-	// console.log("this", this.responseText);
-	var data = JSON.parse(this.responseText).breeds;
-	console.log("breeds", data);
-};
-
 
 function executeThisCodeIfFileErrors() {
 	console.log("Shit's broke");
-
 };
 
-var myDogs = new XMLHttpRequest();
-myDogs.addEventListener("load", executeThisCodeAfterFileLoads);
-myDogs.addEventListener("error", executeThisCodeIfFileErrors);
-myDogs.open("GET", "dogs.json");
-myDogs.send();
+var myDawgz = new XMLHttpRequest();
+myDawgz.addEventListener("load", executeThisCodeAfterFileLoads);
+myDawgz.addEventListener("error", executeThisCodeIfFileErrors);
+myDawgz.open("GET", "dogs.json");
+myDawgz.send();
 
-var myBreeds = new XMLHttpRequest();
-myBreeds.addEventListener("load", executeThisCodeAfterFileLoads2);
-myBreeds.addEventListener("error", executeThisCodeIfFileErrors);
-myBreeds.open("GET", "breeds.json");
-myBreed.send();
+
+function getBreedz(dogz) {
+	// dogz = dogsData;
+	var myBreedz = new XMLHttpRequest();
+	myBreedz.addEventListener("load", executeThisCodeAfterFileLoads2);
+	myBreedz.addEventListener("error", executeThisCodeIfFileErrors);
+	myBreedz.open("GET", "breeds.json");
+	myBreedz.send();
+
+	function executeThisCodeAfterFileLoads2 () {
+		var breedsData = JSON.parse(this.responseText).breeds;
+		combinedArray(dogz, breedsData);
+}
+}
+
+function combinedArray (dogsArray, breedsArray) {
+	// console.log("dogsArray", dogsArray);
+	// 
+	//loop through the dogs - look at breed_id
+	dogsArray.forEach(function(dog) {
+		// console.log("one dog", dog);
+		var currentBreedId = dog["breed-id"];
+		
+		// console.log("dog breed_id", currentBreedId);
+		breedsArray.forEach(function(breed) {
+			if(currentBreedId ===  breed.id) {
+			//console.log("one breed", breed);
+			dog["dogBreed"] = breed.name;
+			dog["basePrice"] = breed["base-price"];
+			dog["description"] = breed.description;
+			dog["finalPrice"] = dog.basePrice + dog["add-on-price"];
+		}
+		});
+		
+	});
+	// loop through the breeds and find matching breeds
+	// make final price
+	console.log("all the dogs", dogsArray);
+	domString(dogsArray);
+}
+
+function domString (dogs) {
+	var reallyLongDomString = "";
+
+
+	writeToDom(reallyLongDomString)
+
+}
+
+function writeToDom (strang) {
+	//put in the dom
+}
+
